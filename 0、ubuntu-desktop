@@ -1,0 +1,219 @@
+################################################################################################################################
+    https://blog.csdn.net/CC977/article/details/116650841
+################################################################################################################################
+\Ubantu
+    https://ubuntu.com/
+        ubuntu-18.04.6-desktop-amd64.iso
+    启动盘（OS + rufus + U盘） + 承载盘
+        http://rufus.ie/en/     http://rufus.ie/zh/
+    磁盘分区
+        https://blog.csdn.net/baidu_36602427/article/details/86548203
+################################################################################################################################
+\OS
+    sudo passwd root                    //root密码
+    su <passwd>
+
+    sudo apt update
+    sudo apt upgrade
+
+    ls /*                               //文件目录
+
+    Source
+################################################################################################################################
+\Python
+    sudo apt install python-pip
+    sudo apt install python-dev
+    sudo apt install python3-pip
+    sudo apt install python3-dev
+
+    //whereis python                    //系统自带python
+        ......
+    //python + python2 + python3        //pip(1\2\3)
+    python3==3.6.9                      (pip==无)
+
+    sudo mkdir .pip
+    cd .pip/
+    sudo touch pip.conf
+    sudo gedit pip.conf
+[global]
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+[install]
+use-mirrors = true
+mirrors = https://pypi.tuna.tsinghua.edu.cn/simple
+trusted-host = pypi.tuna.tsinghua.edu.cn
+################################################################################################################################
+\Github
+sudo gedit /etc/hosts
+20.205.243.166      github.com
+119.28.87.227       github.global.ssl.fastly.net
+185.199.108.153     assets-cdn.github.com
+185.199.109.153     assets-cdn.github.com
+185.199.110.153     assets-cdn.github.com
+185.199.111.153     assets-cdn.github.com
+185.199.108.133     raw.githubusercontent.com
+185.199.109.133     raw.githubusercontent.com
+185.199.110.133     raw.githubusercontent.com
+185.199.111.133     raw.githubusercontent.com
+################################################################################################################################
+\GPU
+    https://www.cnblogs.com/hmlovetech/p/14346202.html
+    Nvidia GPU Driver
+        lsmod | grep nouveau            //
+        lspci | grep -i nvidia
+            :Device 2684                //4090
+        nvidia-smi                      //OS软件更新
+            :Driver Version             //525.89.02
+            :CUDA Version               //12.0
+
+    https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html
+    https://developer.nvidia.com/cuda-toolkit-archive
+    cuda toolkit
+        https://developer.download.nvidia.com/compute/cuda/11.1.1/local_installers/cuda_11.1.1_455.32.00_linux.run
+            sudo sh cuda_11.1.1_455.32.00_linux.run
+            sudo gedit ~/.bashrc
+                export PATH=$PATH:/usr/local/cuda-11.1/bin
+                export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-11.1/lib64
+            source ~/.bashrc
+        nvcc -V                         :cuda_11.1.TC455_06.29190527_0
+
+        cd /usr/local/cuda/samples/1_Utilities/deviceQuery
+        sudo make
+        ./deviceQuery
+
+        //多版本管理
+
+        //cudnn ?
+
+        //env
+        torch                           https://pytorch.org/get-started/previous-versions/
+################################################################################################################################
+\Anaconda
+    https://www.anaconda.com/           Anaconda3-2023.03-Linux-x86_64.sh
+    bash ~.sh                           //安装
+    source ~/.bashrc
+
+    source ~/anaconda3/bin/activate root                //base手动启闭
+    conda init
+    conda config --set auto_activate_base true/false    //base自动启闭
+
+    conda update -n base -c defaults conda              //base环境更新
+
+    https://mirrors.tuna.tsinghua.edu.cn/anaconda/
+    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
+    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/
+    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/pro/
+             --remove
+    conda config --add channels https://mirrors.ustc.edu.cn/anaconda/pkgs/free/
+    conda config --add channels https://mirrors.ustc.edu.cn/anaconda/pkgs/main/
+    conda config --add channels https://mirrors.ustc.edu.cn/anaconda/cloud/conda-forge/
+
+    conda config --set show_channel_urls yes
+    conda config --show channels
+
+    //whereis python                    //软件自带python
+        ......
+    //whereis pip
+        ......
+    //python + python2 + python3        //pip(1\2\3)
+    fczh@fczh   base
+    python      3.10.9
+    pip         22.3.1                  /home/fczh/anaconda3/lib/python3.10/site-packages/pip
+################################################################################################################################
+\Pycharm
+    https://www.jetbrains.com/pycharm/                  pycharm-community-2023.1.tar.gz
+    tar -zxvf   ~.tar.gz
+    cd bin/
+    ./pycharm.sh
+    Create Desktop Entry
+################################################################################################################################
+\Jupyter Notebook                       https://zhuanlan.zhihu.com/p/33105153
+
+    https://jupyter-notebook.readthedocs.io/en/stable/index.html#
+
+    //base
+    conda install jupyter notebook
+    jupyter notebook --generate-config
+    jupyter notebook
+
+    conda install nb_conda
+    conda install -c conda-forge jupyter_contrib_nbextensions
+
+    //
+    python2 -m pip install ipykernel
+    python2 -m ipykernel install --user
+    python3 -m pip install ipykernel
+    python3 -m ipykernel install --user
+
+    //envs
+    conda install ipykernel
+    conda install platformdirs
+    pip3 install --upgrade jupyter_core jupyter_client
+    sudo python -m ipykernel install --name XXX
+
+    //
+    jupyter kernelspec list
+################################################################################################################################
+\Envs
+    //fczh@fczh + base
+    conda list
+
+    //envs
+    conda env list
+    conda create -n <name>
+    conda activate <name>
+    conda deactivate
+    conda pack ...
+
+    //env
+    python3==3.8.10 +++ pip==X              //系统defaults覆盖纯净env
+    conda install python=3.8.12             //conda install -n <env> <package>
+    python3==3.8.12 +++ pip==21.2.4
+################################################################################################################################
+\ROS
+    sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+
+    sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+    sudo apt install curl
+    curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+
+    sudo apt update
+
+    sudo apt install ros-melodic-desktop-full
+    echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+    source ~/.bashrc
+
+    sudo apt install python-rosdep
+    sudo rosdep init
+    rosdep update                           https://blog.csdn.net/weixin_44023934/article/details/121242176
+
+    sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential
+
+    roscore
+################################################################################################################################
+\Chrome                                     https://www.google.cn/chrome/
+################################################################################################################################
+\Clash                                      https://zhuanlan.zhihu.com/p/618834610
+    https://github.com/Fndroid/clash_for_windows_pkg/releases
+    tar -xzvf Clash.for.Windows-0.20.19-x64-linux.tar.gz
+    cd Clash\ for\ Windows-0.20.19-x64-linux/
+    ./cfw
+
+    https://tagss01.pro/
+
+    ports
+################################################################################################################################
+\XMind                                      https://www.jianshu.com/p/9d93b1754549
+    xmind-8-update9-linux.zip               https://xmind.cn/download/xmind8/
+    XMind_amd64.tar.gz                      crack + ini
+
+    sudo gedit /etc/hosts
+    127.0.0.1 www.xmind.net
+
+    sudo ./setup.sh
+
+    crack
+################################################################################################################################
+\BackUp
+################################################################################################################################
