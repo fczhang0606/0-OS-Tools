@@ -80,7 +80,9 @@ sudo gedit /etc/hosts
                 export PATH=$PATH:/usr/local/cuda-11.3/bin
                 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-11.3/lib64
             source ~/.bashrc
-        nvcc -V                                         :cuda_11.1.TC455_06.29190527_0
+        nvcc -V
+            :cuda_11.1.TC455_06.29190527_0
+            :cuda_11.3.r11.3/compiler.29920130_0
         https://blog.csdn.net/weixin_42416791/article/details/115720595
 
         cd /usr/local/cuda/samples/1_Utilities/deviceQuery
