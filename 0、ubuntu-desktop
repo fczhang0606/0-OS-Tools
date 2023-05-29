@@ -56,6 +56,7 @@ sudo gedit /etc/hosts
 185.199.111.133     raw.githubusercontent.com
 ################################################################################################################################
 \GPU
+
     https://www.cnblogs.com/hmlovetech/p/14346202.html
     Nvidia GPU Driver
         lsmod | grep nouveau            //
@@ -65,14 +66,19 @@ sudo gedit /etc/hosts
             :Driver Version                     //525.89.02
             :CUDA Version                      //12.0
 
+    https://blog.csdn.net/qq_43673118/article/details/117966752
     https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html
     https://developer.nvidia.com/cuda-toolkit-archive
     cuda toolkit
         https://developer.download.nvidia.com/compute/cuda/11.1.1/local_installers/cuda_11.1.1_455.32.00_linux.run
+        https://developer.download.nvidia.com/compute/cuda/11.3.1/local_installers/cuda_11.3.1_465.19.01_linux.run
             sudo sh cuda_11.1.1_455.32.00_linux.run
+            sudo sh cuda_11.3.1_465.19.01_linux.run
             sudo gedit ~/.bashrc
                 export PATH=$PATH:/usr/local/cuda-11.1/bin
                 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-11.1/lib64
+                export PATH=$PATH:/usr/local/cuda-11.3/bin
+                export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-11.3/lib64
             source ~/.bashrc
         nvcc -V                                         :cuda_11.1.TC455_06.29190527_0
 
@@ -80,9 +86,21 @@ sudo gedit /etc/hosts
         sudo make
         ./deviceQuery
 
-        //多版本管理
-
-        //cudnn                     ?
+        //cudnn
+        https://blog.csdn.net/takedachia/article/details/130375718
+        https://developer.nvidia.com/rdp/cudnn-archive
+        sudo dpkg -i cudnn-local-repo-ubuntu1804-8.9.0.131_1.0-1_amd64.deb
+        sudo cp /var/cudnn-local-repo-ubuntu1804-8.9.0.131/cudnn-local-A18C0B21-keyring.gpg /usr/share/keyrings/
+        sudo apt-get update
+        apt-cache policy libcudnn8
+        sudo apt-get install libcudnn8=8.9.0.131-1+cuda11.8
+        sudo apt-get install libcudnn8-dev=8.9.0.131-1+cuda11.8
+        sudo apt-get install libcudnn8-samples=8.9.0.131-1+cuda11.8
+        
+        cp -r /usr/src/cudnn_samples_v8/ $HOME
+        cd $HOME/cudnn_samples_v8/mnistCUDNN
+        make clean && make
+        ./mnistCUDNN
 
         //env
         torch                           https://pytorch.org/get-started/previous-versions/
