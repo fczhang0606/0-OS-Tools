@@ -72,6 +72,7 @@ sudo gedit /etc/hosts
     cuda toolkit
         https://developer.download.nvidia.com/compute/cuda/11.1.1/local_installers/cuda_11.1.1_455.32.00_linux.run
         https://developer.download.nvidia.com/compute/cuda/11.3.1/local_installers/cuda_11.3.1_465.19.01_linux.run
+        https://developer.download.nvidia.com/compute/cuda/11.7.1/local_installers/cuda_11.7.1_515.65.01_linux.run
             sudo sh cuda_11.1.1_455.32.00_linux.run
             sudo sh cuda_11.3.1_465.19.01_linux.run
             sudo gedit ~/.bashrc
