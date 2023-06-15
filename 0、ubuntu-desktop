@@ -113,6 +113,9 @@ sudo gedit /etc/hosts
         make clean && make
         ./mnistCUDNN
 
+        sudo rm -rf /usr/local/cuda
+        sudo ln -s /usr/local/cuda-11.1 /usr/local/cuda
+
         //env
         torch                           https://pytorch.org/get-started/previous-versions/
 ################################################################################################################################
