@@ -9,6 +9,19 @@
     磁盘分区
         https://blog.csdn.net/baidu_36602427/article/details/86548203
 ################################################################################################################################
+sudo apt install flex bison
+
+git clone https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/backport-iwlwifi.git
+cd backport-iwlwifi
+sudo make defconfig-iwlwifi-public
+sudo make
+sudo make install
+
+git clone git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
+cd linux-firmware/
+sudo cp iwlwifi-* /lib/firmware/
+reboot
+################################################################################################################################
 \OS
     sudo passwd root                    //root密码
     su <passwd>
