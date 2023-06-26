@@ -10,10 +10,14 @@
         https://blog.csdn.net/baidu_36602427/article/details/86548203
 ################################################################################################################################
 https://blog.csdn.net/qq_43472789/article/details/131082902
+
 uname -r
 https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.19.17/
 sudo dpkg -i *.deb
 sudo update-grub
+
+dpkg --get-selections | grep linux
+sudo apt-get remove --purge *
 ################################################################################################################################
 
 sudo apt install flex bison
