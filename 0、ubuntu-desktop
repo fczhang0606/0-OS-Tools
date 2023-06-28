@@ -1,10 +1,10 @@
 ################################################################################################################################
-    https://blog.csdn.net/CC977/article/details/116650841
-################################################################################################################################
 \Ubantu
+
     https://ubuntu.com/
         ubuntu-18.04.6-desktop-amd64.iso
-    启动盘（OS + rufus + U盘） + 承载盘
+
+    启动盘(OS + rufus + U盘) + 承载盘
             http://rufus.ie/en/           http://rufus.ie/zh/
     磁盘分区
         https://blog.csdn.net/baidu_36602427/article/details/86548203
@@ -13,12 +13,27 @@ https://blog.csdn.net/qq_43472789/article/details/131082902
 
 uname -r
 
-https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.19.17/
+https://kernel.ubuntu.com/~kernel-ppa/mainline
 sudo dpkg -i *.deb
 sudo update-grub
 
 dpkg --get-selections | grep linux
 sudo apt-get remove --purge *
+################################################################################################################################
+sudo apt install flex bison
+sudo apt install cmake
+sudo apt install git
+
+git clone https://github.com/intel/backport-iwlwifi.git
+cd backport-iwlwifi
+cd iwlwifi-stack-dev
+sudo make defconfig-iwlwifi-public
+sudo make
+sudo make install
+
+git clone git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
+cd linux-firmware/
+sudo cp iwlwifi-* /lib/firmware
 ################################################################################################################################
 \OS
     sudo passwd root                    //root密码
