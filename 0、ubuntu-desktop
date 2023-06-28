@@ -140,9 +140,10 @@ sudo gedit /etc/hosts
         sudo apt-get install libcudnn8=8.9.0.131-1+cuda11.8
         sudo apt-get install libcudnn8-dev=8.9.0.131-1+cuda11.8
         sudo apt-get install libcudnn8-samples=8.9.0.131-1+cuda11.8
-        
+
         cp -r /usr/src/cudnn_samples_v8/ $HOME
         cd $HOME/cudnn_samples_v8/mnistCUDNN
+        sudo apt-get install libfreeimage3 libfreeimage-dev
         make clean && make
         ./mnistCUDNN
 
@@ -153,8 +154,9 @@ sudo gedit /etc/hosts
         torch                           https://pytorch.org/get-started/previous-versions/
 ################################################################################################################################
 \Anaconda
-    https://www.anaconda.com/           Anaconda3-2023.03-Linux-x86_64.sh
-    bash ~.sh                                                   //安装
+
+    https://www.anaconda.com/                                               Anaconda3-2023.03-Linux-x86_64.sh
+    bash ~.sh                                                                                       //安装
     source ~/.bashrc
 
     source ~/anaconda3/bin/activate root                            //base手动启闭
@@ -187,13 +189,15 @@ sudo gedit /etc/hosts
     pip                         22.3.1                          /home/fczh/anaconda3/lib/python3.10/site-packages/pip
 ################################################################################################################################
 \Pycharm
-    https://www.jetbrains.com/pycharm/                      pycharm-community-2023.1.tar.gz
+
+    https://www.jetbrains.com/pycharm/                              pycharm-community-2023.1.tar.gz
     tar -zxvf       ~.tar.gz
+
     cd bin/
     ./pycharm.sh
     Create Desktop Entry
 ################################################################################################################################
-\Jupyter Notebook                                                                 https://zhuanlan.zhihu.com/p/33105153
+\Jupyter Notebook                                                                         https://zhuanlan.zhihu.com/p/33105153
 
     https://jupyter-notebook.readthedocs.io/en/stable/index.html#
 
@@ -215,12 +219,13 @@ sudo gedit /etc/hosts
     conda install ipykernel
     conda install platformdirs
     pip3 install --upgrade jupyter_core jupyter_client
-    sudo python -m ipykernel install --name XXX
+    # sudo python -m ipykernel install --name XXX
 
     //
     jupyter kernelspec list
 ################################################################################################################################
 \Envs
+
     //fczh@fczh + base
     conda list
 
@@ -229,6 +234,7 @@ sudo gedit /etc/hosts
     conda create -n <name>
     conda activate <name>
     conda deactivate
+    conda remove -n XXX --all
     conda pack ...
 
     //env
@@ -237,11 +243,12 @@ sudo gedit /etc/hosts
     python3==3.8.12 +++ pip==21.2.4
 ################################################################################################################################
 \ROS
+
     sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 
-    sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
     sudo apt install curl
     curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+    # sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 
     sudo apt update
 
