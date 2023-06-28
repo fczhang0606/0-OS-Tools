@@ -1,5 +1,5 @@
 ################################################################################################################################
-\Ubantu
+\Ubuntu
 
     https://ubuntu.com/
         ubuntu-18.04.6-desktop-amd64.iso
@@ -10,7 +10,7 @@
     磁盘分区
         https://blog.csdn.net/baidu_36602427/article/details/86548203
 ################################################################################################################################
-https://blog.csdn.net/qq_43472789/article/details/131082902
+\Kernel                                                https://blog.csdn.net/qq_43472789/article/details/131082902
 
 uname -r
 
@@ -21,6 +21,8 @@ sudo update-grub
 dpkg --get-selections | grep linux
 sudo apt-get remove --purge *
 ################################################################################################################################
+\Driver
+
 sudo apt install flex bison
 sudo apt install cmake
 sudo apt install git
@@ -37,6 +39,7 @@ cd linux-firmware/
 sudo cp iwlwifi-* /lib/firmware
 ################################################################################################################################
 \OS
+
     sudo passwd root                    //root密码
     su <passwd>
 
@@ -48,6 +51,7 @@ sudo cp iwlwifi-* /lib/firmware
     Source
 ################################################################################################################################
 \Python
+
     sudo apt install python-pip
     sudo apt install python-dev
     sudo apt install python3-pip
@@ -70,7 +74,9 @@ mirrors = https://pypi.tuna.tsinghua.edu.cn/simple
 trusted-host = pypi.tuna.tsinghua.edu.cn
 ################################################################################################################################
 \Github
+
 sudo gedit /etc/hosts
+
 20.205.243.166          github.com
 119.28.87.227            github.global.ssl.fastly.net
 185.199.108.153     assets-cdn.github.com
