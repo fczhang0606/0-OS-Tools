@@ -73,6 +73,30 @@ use-mirrors = true
 mirrors = https://pypi.tuna.tsinghua.edu.cn/simple
 trusted-host = pypi.tuna.tsinghua.edu.cn
 ################################################################################################################################
+\QT                                                                https://zhuanlan.zhihu.com/p/586929474
+
+sudo apt-get update
+sudo apt-get install gcc g++
+sudo apt-get install build-essential
+sudo apt-get install libgl1-mesa-dev
+sudo apt-get install make
+sudo apt-get install cmake
+
+sudo apt-get install qtbase5-dev qtbase5-dev-tools
+sudo apt-get install qt5-default qtcreator qtchooser
+sudo apt-get install qt5-qmake
+sudo apt-get install qtbase5-examples qt5-doc-html
+
+https://download.qt.io/archive/qt/5.14/5.14.2/
+chmod u+x qt-opensource-linux-x64-5.14.2.run
+sudo ./qt-opensource-linux-x64-5.14.2.run
+
+qmake -v
+sudo find / -name "qt?"
+
+conda install qt
+conda uninstall qt
+################################################################################################################################
 \Github
 
 sudo gedit /etc/hosts
