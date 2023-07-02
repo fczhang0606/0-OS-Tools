@@ -90,12 +90,23 @@ sudo apt-get install qtbase5-examples qt5-doc-html
 https://download.qt.io/archive/qt/5.14/5.14.2/
 chmod u+x qt-opensource-linux-x64-5.14.2.run
 sudo ./qt-opensource-linux-x64-5.14.2.run
+sudo gedit /etc/profile
+export PATH="/home/zhfc/Qt5.14.2/Tools/QtCreator/bin:$PATH"
+export PATH="/home/zhfc/Qt5.14.2/5.14.2/gcc_64/bin:$PATH"
+export LD_LIBRARY_PATH="/home/zhfc/Qt5.14.2/5.14.2/gcc_64/lib:$LD_LIBRARY_PATH"
+export QT_PLUGIN_PATH="/home/zhfc/Qt5.14.2/5.14.2/gcc_64/plugins:$QT_PLUGIN_PATH"
+export QML2_IMPORT_PATH="/home/zhfc/Qt5.14.2/5.14.2/gcc_64/qml:$QML2_IMPORT_PATH"
+source /etc/profile
+
+conda install qt
+conda install pyqt
+conda install pyqt5
+pip install qt
+pip install pyqt
+pip install pyqt5
 
 qmake -v
 sudo find / -name "qt?"
-
-conda install qt
-conda uninstall qt
 ################################################################################################################################
 \Github
 
