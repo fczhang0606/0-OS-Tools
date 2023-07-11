@@ -134,6 +134,7 @@ sudo gedit /etc/hosts
 \Chrome
 ################################################################################################################################
 \Anaconda
+
     https://www.anaconda.com/               Anaconda3-2023.03-Linux-aarch64.sh
     bash ~.sh
     source ~/.bashrc
