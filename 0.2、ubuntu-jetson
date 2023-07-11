@@ -1,0 +1,472 @@
+################################################################################################################################
+\NVIDIA (Core Board)
+
+    https://www.nvidia.cn/autonomous-machines/embedded-systems/
+    https://developer.nvidia.com/embedded/downloads
+﻿################################################################################################################################
+\TAOBAO (Carrier Board)
+
+    Nano
+    https://detail.tmall.com/item.htm?spm=a1z10.3-b-s.w4011-22651346881.62.51eb330f1YvHfF&id=608609593274&rn=1bd9f9c9aa64b05fcd0ad19ce3dafc8b&abbucket=9&skuId=4810589036014
+    https://www.yahboom.com/study/jetson-nano       72q3
+
+    Xavier NX
+    https://detail.tmall.com/item.htm?spm=a1z10.3-b-s.w4011-24196153871.159.4395323b5aNmCA&id=648899895669&rn=c5d99eae476b0513af9adbb5599dc7ac&abbucket=9&skuId=4856906526466
+
+    Orin NX
+    ...
+
+################################################################################################################################
+\JetPack (Embedded OS)
+
+    Host
+        Ubuntu          .iso                PC/VM16/VM15
+        SDKManager      .deb                https://developer.nvidia.cn/drive/sdk-manager
+
+    Jetson                                  RST + MicroUSB
+        JetPack         4/5                 L4T .
+        Components      cuda + cudnn + opencv + ...
+                            https://zhuanlan.zhihu.com/p/537971515
+                            sudo apt update
+                            sudo apt dist-upgrade
+                            sudo reboot
+
+                            sudo apt install nvidia-jetpack
+
+                            sudo pip2/3 install jetson-stats
+                            sudo jtop
+
+                            sudo gedit ~/.bashrc
+                                export PATH=/usr/local/cuda/bin:$PATH
+                                export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+                            source ~/.bashrc
+                            nvcc -V
+################################################################################################################################
+\Boot
+
+    cd /dev         ls -a
+    lsusb
+    lsblk
+    df -h
+
+    Format External Disk
+        sudo umount /dev/sda1           mmcblk0p1   mmcblk1p1   sdb1    vme0n1p1 (Disks)
+        sudo mkfs.ext4 /dev/sda1
+
+    cp rootfs
+        https://github.com/jetsonhacks/bootFromExternalStorage
+        https://github.com/JetsonHacksNano/bootFromUSB
+
+        sudo mount /dev/sda1 /mnt
+        sudo apt update
+        sudo apt install rsync -y
+        sudo rsync -axHAWX --numeric-ids --info=progress2 / /mnt
+        sudo rsync -axHAWX --numeric-ids --info=progress2 --exclude=/proc / /mnt
+        sudo rsync -axHAWX --numeric-ids --info=progress2 --exclude={"/dev/","/proc/","/sys/","/tmp/","/run/","/mnt/","/media/*","/lost+found"} / /mnt
+
+    boot setup
+        sudo gedit /boot/extlinux/extlinux.conf
+        sudo gedit /mnt/boot/extlinux/extlinux.conf
+        sudo blkid -o value -s PARTUUID ...                 root=PARTUUID=...
+################################################################################################################################
+\System Update
+
+    sudo gedit /etc/apt/sources.list
+        ...
+    ://System Settings/Software & Updates/...
+
+    # sudo apt remove libreoffice-common
+    sudo apt update
+    sudo apt upgrade
+
+    Software Updater
+
+    # System Language Update
+    # sudo apt install ibus-pinyin
+################################################################################################################################
+\python 2~3                                                 https://blog.csdn.net/samsu0108/article/details/121220366
+
+    sudo apt install python-pip
+    sudo apt install python-dev
+    sudo apt install python3-pip
+    sudo apt install python3-dev
+
+    sudo mkdir .pip
+    sudo touch pip.conf
+    sudo gedit pip.conf
+[global]
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+[install]
+use-mirrors = true
+mirrors = https://pypi.tuna.tsinghua.edu.cn/simple
+trusted-host = pypi.tuna.tsinghua.edu.cn
+################################################################################################################################
+\pytorch                                                    https://docs.nvidia.com/deeplearning/frameworks/install-pytorch-jetson-platform/index.html
+
+sudo apt-get -y update
+sudo apt-get -y install autoconf bc build-essential g++-8 gcc-8 clang-8 lld-8 gettext-base gfortran-8 iputils-ping libbz2-dev libc++-dev libcgal-dev libffi-dev libfreetype6-dev libhdf5-dev libjpeg-dev liblzma-dev libncurses5-dev libncursesw5-dev libpng-dev libreadline-dev libssl-dev libsqlite3-dev libxml2-dev libxslt-dev locales moreutils openssl python-openssl rsync scons python3-pip libopenblas-dev
+export TORCH_INSTALL=https://developer.download.nvidia.cn/compute/redist/jp/v51/pytorch/torch-1.14.0a0+44dac51c.nv23.02-cp38-cp38-linux_aarch64.whl
+
+python3 -m pip install --upgrade pip
+python3 -m pip install aiohttp numpy=='1.19.4' scipy=='1.5.3'
+export "LD_LIBRARY_PATH=/usr/lib/llvm-8/lib:$LD_LIBRARY_PATH"
+python3 -m pip install --upgrade protobuf
+python3 -m pip install --no-cache $TORCH_INSTALL
+export LD_LIBRARY_PATH=/usr/lib/llvm-8/lib:$LD_LIBRARY_PATH
+
+python3
+import torch
+################################################################################################################################
+\Github
+
+sudo gedit /etc/hosts
+20.205.243.166      github.com
+119.28.87.227       github.global.ssl.fastly.net
+185.199.108.153	    assets-cdn.github.com
+185.199.109.153	    assets-cdn.github.com
+185.199.110.153	    assets-cdn.github.com
+185.199.111.153	    assets-cdn.github.com
+185.199.108.133	    raw.githubusercontent.com
+185.199.109.133	    raw.githubusercontent.com
+185.199.110.133	    raw.githubusercontent.com
+185.199.111.133	    raw.githubusercontent.com
+################################################################################################################################
+\Chrome
+################################################################################################################################
+\Anaconda
+    https://www.anaconda.com/               Anaconda3-2023.03-Linux-aarch64.sh
+    bash ~.sh
+    source ~/.bashrc
+
+    source ~/anaconda3/bin/activate root
+    conda init
+    conda config --set auto_activate_base true/false
+
+    conda update -n base -c defaults conda
+
+    https://mirrors.tuna.tsinghua.edu.cn/anaconda/
+    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
+    conda config --set show_channel_urls yes
+    conda config --show channels
+
+    //whereis python
+        ......
+    //whereis pip
+        ......
+    //python + python2 + python3        //pip(1\2\3)
+    fczh@fczh   base
+    python      3.10.9
+    pip         22.3.1                  /home/fczh/anaconda3/lib/python3.10/site-packages/pip
+################################################################################################################################
+\ROS
+
+NANO    https://blog.csdn.net/manbushuizhong/article/details/122144382      melodic
+Orin    https://blog.csdn.net/TNYQ_2018/article/details/129044768           noetic
+
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+sudo apt install curl
+curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+
+sudo apt update
+sudo apt upgrade
+
+sudo apt install ros-noetic-desktop-full                                # System Updates
+    echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+    source ~/.bashrc
+
+sudo apt install python3-rosdep
+sudo rosdep init
+rosdep update                                                           https://blog.csdn.net/weixin_44023934/article/details/121242176
+
+sudo apt install python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
+
+http://wiki.ros.org/cn/ROS/Tutorials/WritingPublisherSubscriber(python)
+################################################################################################################################
+################################################################################################################################
+################################################################################################################################
+\WS
+
+mkdir -p ~/ws/src
+cd ~/ws/src
+catkin_init_workspace
+
+cd ~/ws
+catkin_make                                                             catkin_make != catkin build
+catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
+catkin_make -DCMAKE_BUILD_TYPE=Release
+
+echo "source /home/ubuntu/ws/devel/setup.sh" >> ~/.bashrc
+source ~/.bashrc
+
+
+
+https://blog.csdn.net/weixin_45205599/article/details/128879835
+https://blog.csdn.net/pineappletwo/article/details/128899588
+cd ~/ws/src
+    catkin_create_pkg pkg std_msgs rospy roscpp
+cd ~/ws/src/pkg
+    mkdir scripts
+cd ~/ws/src/pkg/scripts
+    chmod +x *.py
+        #!/usr/bin/env python3
+        # -*- coding:utf8 -*-
+CMakeLists.txt
+cd ~/ws
+    catkin_make -DCMAKE_BUILD_TYPE=Release
+    source ~/ws/devel/setup.bash
+################################################################################################################################
+\MAVLink
+
+https://mavlink.io/en/
+https://mavlink.io/en/getting_started/
+
+sudo apt install python3-pip                            python3.6 + pip3
+pip3 install --user future                              future
+sudo apt install python3-lxml libxml2-utils             XML validation and formatting
+sudo apt install python3-tk                             Tklnter
+
+../src
+git clone https://github.com/mavlink/mavlink.git --recursive
+
+sudo gedit ~/.bashrc
+export PYTHONPATH=<dir>:$PYTHONPATH
+source ~/.bashrc
+
+../mavlink/message_definitions/1.0/.xml
+python3 -m mavgenerate
+################################################################################################################################
+\MAVLink + MAVROS
+
+https://github.com/mavlink/mavros/blob/master/mavros/README.md#source-installation
+https://blog.csdn.net/qq_43414059/article/details/104065219
+
+sudo apt-get install python-catkin-tools python-rosinstall-generator -y
+mkdir -p ~/ws/src
+cd ~/ws
+catkin init
+wstool init src                                         http://wiki.ros.org/wstool
+
+rosinstall_generator --rosdistro melodic mavlink | tee /tmp/mavros.rosinstall
+rosinstall_generator --upstream mavros | tee -a /tmp/mavros.rosinstall
+//rosinstall_generator --upstream mavros --deps | tee -a /tmp/mavros.rosinstall
+wstool merge -t src /tmp/mavros.rosinstall
+wstool update -t src -j4
+rosdep install --from-paths src --ignore-src -y
+sudo ./src/mavros/mavros/scripts/install_geographiclib_datasets.sh
+
+catkin build
+echo "source /home/ubuntu/ws/devel/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+################################################################################################################################
+\RealSense
+
+http://wiki.ros.org/RealSense
+http://wiki.ros.org/librealsense#Installation_Prerequisites
+    wget -O enable_kernel_sources.sh https://raw.githubusercontent.com/IntelRealSense/librealsense/rosdebian/scripts/enable_kernel_sources.sh
+    bash ./enable_kernel_sources.sh
+    sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade
+
+http://wiki.ros.org/realsense2_camera
+https://github.com/IntelRealSense/realsense-ros#installation-instructions
+https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_jetson.md
+        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || 
+        sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
+        sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
+        sudo apt-get install librealsense2-utils
+        sudo apt-get install librealsense2-dev
+        //sudo apt-get install librealsense2-dkms
+        //sudo apt-get install librealsense2-dbg
+        realsense-viewer
+        //modinfo uvcvideo | grep "version:"
+        Building(?)
+
+../src
+git clone https://github.com/IntelRealSense/realsense-ros.git
+cd realsense-ros/
+git checkout `git tag | sort -V | grep -P "^2.\d+\.\d+" | tail -1`
+
+cd ..
+cd ..
+catkin build                        //opencv4
+roslaunch realsense2_camera rs_camera.launch
+################################################################################################################################
+\rplidar
+
+http://wiki.ros.org/rplidar
+https://www.slamtec.com/en/S2
+https://github.com/Slamtec/rplidar_ros
+    ../src
+    git clone https://github.com/Slamtec/rplidar_ros.git
+    catkin build -DCMAKE_BUILD_TYPE=Release
+    roslaunch rplidar_ros view_rplidar_s2.launch
+    https://github.com/robopeak/rplidar_ros/wiki
+    ls -l /dev | grep ttyUSB
+    sudo chmod 666 /dev/ttyUSB0
+################################################################################################################################
+\T265 (Visual Inertial Odometry)
+
+http://docs.px4.io/master/zh/peripherals/camera_t265_vio.html
+https://github.com/Auterion/VIO
+    ../src
+    git clone https://github.com/Auterion/VIO.git
+    catkin build -DCMAKE_BUILD_TYPE=Release
+    roslaunch px4_realsense_bridge bridge_mavros.launch
+################################################################################################################################
+\feetech
+
+https://www.feetech.cn/
+https://www.feetech.cn/12v-85kg-serial-rs485-bus-steering-gear.html
+################################################################################################################################
+\face_recognition
+
+https://github.com/ageitgey/face_recognition
+
+pip3 install dlib
+https://github.com/ageitgey/face_recognition/blob/master/Dockerfile#L6-L34
+    sudo apt install aptitude
+    pip3 install setuptools                         https://blog.csdn.net/weixin_30282917/article/details/114405252
+pip3 install face_recognition
+
+https://blog.csdn.net/Harrytsz/article/details/120182973
+################################################################################################################################
+################################################################################################################################
+################################################################################################################################
+\Jetson + ZED                                       https://blog.csdn.net/bingshuiyuyi/article/details/123762861
+
+    sudo apt-cache show nvidia-jetpack              5.1-b147
+    cat /etc/nv_tegra_release                       R35.2.1
+    ZED_SDK_Tegra_L4T35.2_v4.0.1.zstd.run           https://www.stereolabs.com/developers/release/
+
+    chmod a+x ZED_SDK_Tegra_L4T35.2_v4.0.1.zstd.run
+    sudo apt install zstd
+    ./ZED_SDK_Tegra_L4T35.2_v4.0.1.zstd.run
+        python3-api                                 https://github.com/stereolabs/zed-python-api
+            sudo apt remove python3-numpy
+            pip3 install cython
+            pip3 install numpy==1.19.5
+        AI model
+            ...
+
+    cd /usr/local/zed/tools
+    ./ZED_Explorer
+################################################################################################################################
+\Jetson + ZED + ROS
+
+https://github.com/stereolabs/zed-ros-wrapper
+https://haowang.blog.csdn.net/article/details/115401380
+
+cd ~/ws/src
+git clone --recursive https://github.com/stereolabs/zed-ros-wrapper.git
+cd ../
+rosdep install --from-paths src --ignore-src -r -y
+catkin_make -DCMAKE_BUILD_TYPE=Release
+source ./devel/setup.bash
+
+roslaunch zed_wrapper zed.launch
+roslaunch zed_wrapper zedm.launch
+pip install rospkg
+
+http://wiki.ros.org/zed-ros-wrapper
+
+/zed/zed_node/depth/depth_registered                    http://docs.ros.org/en/api/sensor_msgs/html/msg/Image.html
+depth/max_depth (float, default: 10.0)
+
+/zedm/zed_node/imu/data                                 http://docs.ros.org/en/api/sensor_msgs/html/msg/Imu.html
+/zedm/zed_node/left_cam_imu_transform                   http://docs.ros.org/en/api/geometry_msgs/html/msg/Transform.html
+
+/zedm/zed_node/left/camera_info                         http://docs.ros.org/en/api/sensor_msgs/html/msg/CameraInfo.html
+/zedm/zed_node/left/image_rect_gray                     http://docs.ros.org/en/api/sensor_msgs/html/msg/CameraInfo.html
+/zedm/zed_node/left/image_rect_color                    http://docs.ros.org/en/api/sensor_msgs/html/msg/CameraInfo.html
+
+/zedm/zed_node/depth/camera_info                        http://docs.ros.org/en/api/sensor_msgs/html/msg/CameraInfo.html
+/zedm/zed_node/depth/depth_registered                   http://docs.ros.org/en/api/sensor_msgs/html/msg/Image.html
+################################################################################################################################
+\Jetson + YOLO
+
+https://blog.csdn.net/m0_62114628/article/details/124356097
+    git clone https://github.com/AlexeyAB/darknet.git
+    Makefile Setup
+        ...
+        ARCH= -gencode arch=compute_53,code=[sm_53,compute_53]      NANO
+        ARCH= -gencode arch=compute_72,code=[sm_72,compute_72]      NX
+        NVCC=/usr/local/cuda-10.2/bin/nvcc
+    ./darknet detect cfg/yolov4-tiny.cfg yolov4-tiny.weights data/dog.jpg
+        sudo apt install libcanberra-gtk-module
+    ./darknet detector demo cfg/coco.data cfg/yolov4-tiny.cfg yolov4-tiny.weights /dev/video0
+################################################################################################################################
+\Jetson + YOLO + ROS
+
+https://haowang.blog.csdn.net/article/details/122541570?spm=1001.2014.3001.5502
+https://github.com/leggedrobotics/darknet_ros
+http://wiki.ros.org/darknet_ros
+
+github  fczhang0606@qq.com
+https://support.atlassian.com/bitbucket-cloud/docs/set-up-an-ssh-key/
+    ssh-keygen
+    ls ~/.ssh
+    eval `ssh-agent`
+    ssh-add ~/.ssh/id_rsa
+    cat ~/.ssh/id_rsa.pub
+    github <Add SSH key>
+
+cd ~/ws/src
+git clone --recursive git@github.com:leggedrobotics/darknet_ros.git
+cd ../
+catkin_make -DCMAKE_BUILD_TYPE=Release                                  //opencv4
+
+cd ~/ws/src/darknet_ros/darknet_ros/yolo_network_config/cfg             yolov2-tiny.cfg
+cd ~/ws/src/darknet_ros/darknet_ros/yolo_network_config/weights/        yolov2-tiny.weights
+    wget http://pjreddie.com/media/files/yolov2.weights
+    wget http://pjreddie.com/media/files/yolov2-tiny.weights
+    wget http://pjreddie.com/media/files/yolov2-voc.weights
+    wget http://pjreddie.com/media/files/yolov2-tiny-voc.weights
+    wget http://pjreddie.com/media/files/yolov3.weights
+    wget http://pjreddie.com/media/files/yolov3-tiny.weights
+cd ~/ws/src/darknet_ros/darknet_ros/config                              yolov2-tiny.yaml
+cd ~/ws/src/darknet_ros/darknet_ros/config                              ros.yaml
+cd ~/ws/src/darknet_ros/darknet_ros/launch                              darknet_ros.launch
+
+ROS_HOST_MACHINE + ROS_CLIENT_MACHINE                                   https://haowang.blog.csdn.net/article/details/115564181
+
+roslaunch darknet_ros darknet_ros.launch
+https://github.com/leggedrobotics/darknet_ros/tree/master/darknet_ros_msgs/msg
+
+\DataSet                                                                https://zhuanlan.zhihu.com/p/138933933
+################################################################################################################################
+\Jetson + ROS + YOLO Object + ZED Depth
+
+cd ~/ws/src
+catkin_create_pkg test std_msgs rospy roscpp
+cd ..
+catkin_make -DCMAKE_BUILD_TYPE=Release
+source ~/ws/devel/setup.bash
+
+https://github.com/stereolabs/zed-ros-examples/tree/master/tutorials/zed_depth_sub_tutorial         .cpp
+https://blog.csdn.net/WXG1011/article/details/127733855                 https://www.jb51.net/article/173400.htm
+https://www.codeleading.com/article/18924349731/
+################################################################################################################################
+\Infrared Radiation Camera
+
+https://www.yahboom.com/study_module/Camera-HFR
+sudo apt-get install mplayer -y
+sudo mplayer tv://
+sudo apt-get install fswebcam -y
+fswebcam -d /dev/video0 --no-banner -r 320x240 -S 10 /home/ubuntu/Downloads/image.jpg
+
+https://www.yii666.com/blog/400660.html
+sudo apt install v4l-utils
+v4l2-ctl --list-devices
+v4l2-ctl -d /dev/video0 --list-formats-ext --all                        MJPG--640x480--30Hz
+
+https://www.iotword.com/2797.html
+https://blog.csdn.net/first_bug/article/details/124717766
+https://blog.csdn.net/weixin_47965042/article/details/113359922
+################################################################################################################################
+\Image Convert & Process
+http://wiki.ros.org/cv_bridge/Tutorials/UsingCvBridgeToConvertBetweenROSImagesAndOpenCVImages
+
+https://blog.csdn.net/qq_43436296/article/details/126786430
+################################################################################################################################
+
