@@ -20,8 +20,8 @@
 \JetPack (Embedded OS)
 
     Host
-        Ubuntu          .iso                PC/VM16/VM15
-        SDKManager      .deb                https://developer.nvidia.cn/drive/sdk-manager
+        Ubuntu                  .iso                	PC/VM16/VM15
+        SDKManager       .deb                	https://developer.nvidia.cn/drive/sdk-manager
 
     Jetson                                  RST + MicroUSB
         JetPack         4/5                 L4T .
@@ -161,7 +161,7 @@ sudo gedit /etc/hosts
     python      3.10.9
     pip         22.3.1                  /home/fczh/anaconda3/lib/python3.10/site-packages/pip
 ################################################################################################################################
-\ROS
+\ROS                                                                            wget http://fishros.com/install -O fishros && . fishros
 
 NANO    https://blog.csdn.net/manbushuizhong/article/details/122144382      melodic
 Orin    https://blog.csdn.net/TNYQ_2018/article/details/129044768           noetic
@@ -261,7 +261,7 @@ catkin build
 echo "source /home/ubuntu/ws/devel/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ################################################################################################################################
-\RealSense
+\RealSense                                                        sudo apt-get install ros-melodic-realsense2-camera
 
 http://wiki.ros.org/RealSense
 http://wiki.ros.org/librealsense#Installation_Prerequisites
