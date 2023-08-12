@@ -3,12 +3,15 @@
 
     https://ubuntu.com/
         ubuntu-18.04.6-desktop-amd64.iso
+        ubuntu-20.04.6-desktop-amd64.iso
 
     启动盘(OS + rufus + U盘) + 承载盘
             http://rufus.ie/en/           http://rufus.ie/zh/
 
     磁盘分区
         https://blog.csdn.net/baidu_36602427/article/details/86548203
+
+    安装系统（默认选项，含有驱动）
 ################################################################################################################################
 \Kernel                                                https://blog.csdn.net/qq_43472789/article/details/131082902
 
@@ -277,7 +280,7 @@ sudo gedit /etc/hosts
     conda install python=3.8.12               //conda install -n <env> <package>
     python3==3.8.12 +++ pip==21.2.4
 ################################################################################################################################
-\ROS
+\ROS                                                            wget http://fishros.com/install -O fishros && . fishros
 
     sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 
@@ -331,3 +334,4 @@ sudo gedit /etc/hosts
 \BackUp
 
 ################################################################################################################################
+
