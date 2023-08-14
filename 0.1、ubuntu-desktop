@@ -6,14 +6,14 @@
         ubuntu-20.04.6-desktop-amd64.iso
 
     启动盘(OS + rufus + U盘) + 承载盘
-        http://rufus.ie/en/           http://rufus.ie/zh/
+        http://rufus.ie/en/        http://rufus.ie/zh/
 
     磁盘分区
         https://blog.csdn.net/baidu_36602427/article/details/86548203
 
     安装系统（默认选项，含有驱动）
 ################################################################################################################################
-\Kernel                                                https://blog.csdn.net/qq_43472789/article/details/131082902
+\Kernel                                                        https://blog.csdn.net/qq_43472789/article/details/131082902
 
 uname -r
 
@@ -75,7 +75,7 @@ use-mirrors = true
 mirrors = https://pypi.tuna.tsinghua.edu.cn/simple
 trusted-host = pypi.tuna.tsinghua.edu.cn
 ################################################################################################################################
-\QT                                                                https://zhuanlan.zhihu.com/p/586929474
+\QT                                                            https://zhuanlan.zhihu.com/p/586929474
 
 sudo apt-get update
 sudo apt-get install gcc g++
@@ -114,16 +114,16 @@ sudo find / -name "qt?"
 
 sudo gedit /etc/hosts
 
-20.205.243.166          github.com
-119.28.87.227            github.global.ssl.fastly.net
-185.199.108.153     assets-cdn.github.com
-185.199.109.153     assets-cdn.github.com
-185.199.110.153     assets-cdn.github.com
-185.199.111.153     assets-cdn.github.com
-185.199.108.133     raw.githubusercontent.com
-185.199.109.133     raw.githubusercontent.com
-185.199.110.133     raw.githubusercontent.com
-185.199.111.133     raw.githubusercontent.com
+20.205.243.166         github.com
+119.28.87.227          github.global.ssl.fastly.net
+185.199.108.153        assets-cdn.github.com
+185.199.109.153        assets-cdn.github.com
+185.199.110.153        assets-cdn.github.com
+185.199.111.153        assets-cdn.github.com
+185.199.108.133        raw.githubusercontent.com
+185.199.109.133        raw.githubusercontent.com
+185.199.110.133        raw.githubusercontent.com
+185.199.111.133        raw.githubusercontent.com
 ################################################################################################################################
 \GPU
 
@@ -224,13 +224,13 @@ sudo gedit /etc/hosts
 \Pycharm
 
     https://www.jetbrains.com/pycharm/
-    tar -zxvf       pycharm-community-2023.1.tar.gz.tar.gz
+    tar -zxvf pycharm-community-2023.1.tar.gz.tar.gz
 
     cd bin/
     ./pycharm.sh
     Create Desktop Entry
 ################################################################################################################################
-\Jupyter Notebook                                                                         https://zhuanlan.zhihu.com/p/33105153
+\Jupyter Notebook                                                https://zhuanlan.zhihu.com/p/33105153
 
     https://jupyter-notebook.readthedocs.io/en/stable/index.html#
 
@@ -291,16 +291,16 @@ sudo gedit /etc/hosts
 
     sudo apt install python-rosdep
     sudo rosdep init
-    rosdep update                                      https://blog.csdn.net/weixin_44023934/article/details/121242176
+    rosdep update                                                https://blog.csdn.net/weixin_44023934/article/details/121242176
 
     sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential
 
     roscore
 ################################################################################################################################
-\Chrome                                                     https://www.google.cn/chrome/
+\Chrome                                                        https://www.google.cn/chrome/
 
 ################################################################################################################################
-\Clash                                                          https://zhuanlan.zhihu.com/p/618834610
+\Clash                                                        https://zhuanlan.zhihu.com/p/618834610
 
     https://github.com/Fndroid/clash_for_windows_pkg/releases
     tar -xzvf Clash.for.Windows-0.20.19-x64-linux.tar.gz
@@ -316,8 +316,8 @@ sudo gedit /etc/hosts
 ################################################################################################################################
 \XMind                                                           https://www.jianshu.com/p/9d93b1754549
 
-    xmind-8-update9-linux.zip               https://xmind.cn/download/xmind8/
-    XMind_amd64.tar.gz                            crack + ini
+    xmind-8-update9-linux.zip                                   https://xmind.cn/download/xmind8/
+    XMind_amd64.tar.gz
 
     sudo gedit /etc/hosts
     127.0.0.1 www.xmind.net
