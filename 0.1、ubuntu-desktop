@@ -52,6 +52,9 @@ sudo cp iwlwifi-* /lib/firmware
     ls /*
 
     Source
+
+    sudo add-apt-repository multiverse
+    sudo apt install ubuntu-restricted-extras
 ################################################################################################################################
 \Python
 
