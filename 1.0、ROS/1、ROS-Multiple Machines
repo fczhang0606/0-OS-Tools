@@ -21,3 +21,4 @@ rosrun turtlesim turtlesim_node
 
 rostopic list
 rostopic pub -r 10 /turtle1/cmd_vel geometry_msgs/Twist "..."
+
