@@ -1,0 +1,27 @@
+https://blog.csdn.net/fb_941219/article/details/84481689
+https://blog.csdn.net/fb_941219/article/details/84486603
+https://blog.csdn.net/qq_21830903/article/details/91457392
+
+dmesg | grep ttyS*
+	FTDI USB Serial Device converter now attached to ttyUSB0
+
+ls -l /dev/ttyUSB*
+
+sudo touch /etc/udev/rules.d/70-ttyusb.rules
+sudo gedit '/etc/udev/rules.d/70-ttyusb.rules'
+KERNEL=="ttyUSB[0-9]*", MODE="0666"
+
+sudo adduser xx dialout
+cat /etc/group
+
+sudo apt install cutecom
+sudo cutecom
+
+sudo apt install minicom
+sudo minicom -s
+
+sudo apt install ros-melodic-serial
+roscd serial == /opt/ros/melodic/share/serial
+
+cd ~/ws/src
+catkin_create_pkg learning_com std_msgs roscpp serial
