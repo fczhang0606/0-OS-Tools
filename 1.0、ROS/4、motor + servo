@@ -1,0 +1,393 @@
+################################################################################################################################
+#!/usr/bin/env python2
+#coding=utf-8
+
+import rospy
+
+from geometry_msgs.msg import Point
+#from sensor_msgs import JointState
+from tf.transformations import *
+
+from actuatorcontroller_ros.msg import *
+from actuatorcontroller_ros.srv import *
+
+import math
+import numpy as np
+
+
+
+class Nodo(object) :
+    def __init__(self) :
+
+        #self.loop_rate = rospy.Rate(10)
+
+        self.actuatorarray  = ActuatorArray()
+        self.pub_enable     = rospy.Publisher("/INNFOS/enableActuator", ActuatorArray, queue_size=1)
+        self.pub_disable    = rospy.Publisher("/INNFOS/disableActuator", ActuatorArray, queue_size=1)
+
+        self.modes      = ActuatorModes()
+        self.pub_modes  = rospy.Publisher("/INNFOS/setControlMode", ActuatorModes, queue_size=1)
+
+        self.joint_cmd = ActuatorCommand()
+        self.pub_pos = rospy.Publisher("/INNFOS/setTargetPosition", ActuatorCommand, queue_size=1)
+
+        # self.flag
+        self.zeroreset = rospy.ServiceProxy("/INNFOS/ZeroReset", ZeroReset)
+
+
+
+    def start(self) :
+
+
+
+        #
+        joints_enable = raw_input('enable joints? (Y/N)')
+        if joints_enable == 'Y' :
+            #self.actuatorarray.JointIDs = [1, 2, 3, 4, 5, 6, 7]
+            self.actuatorarray.JointIDs = [5, 6, 7]
+            for i in range(3) :
+                self.pub_enable.publish(self.actuatorarray)
+                rospy.sleep(0.1)
+            rospy.sleep(10)
+            print('joints enabled')
+
+
+
+        zeroreset_enable = raw_input('zero reset？ (Y/N)')
+        if zeroreset_enable == 'Y' :
+            #self.modes.JointIDs = [1, 2, 3, 4, 5, 6, 7]
+            self.modes.JointIDs = [5, 6, 7]
+            self.modes.ActuatorMode = 6
+            for i in range(3) :
+                self.pub_modes.publish(self.modes)
+                rospy.sleep(0.1)
+            rospy.sleep(3)
+
+            print("resetting zero")
+            #res1 = self.zeroreset(1)
+            #print("joint 1 zeroreset: ", res1.isSuccessful)
+            #res2 = self.zeroreset(2)
+            #print("joint 2 zeroreset: ", res2.isSuccessful)
+            #res3 = self.zeroreset(3)
+            #print("joint 3 zeroreset: ", res3.isSuccessful)
+            #res4 = self.zeroreset(4)
+            #print("joint 4 zeroreset: ", res4.isSuccessful)
+            res5 = self.zeroreset(5)
+            print("joint 5 zeroreset: ", res5.isSuccessful)
+            res6 = self.zeroreset(6)
+            print("joint 6 zeroreset: ", res6.isSuccessful)
+            res7 = self.zeroreset(7)
+            print("joint 7 zeroreset: ", res7.isSuccessful)
+            rospy.sleep(3)
+            print('zero reset')
+
+
+
+        #
+        paras_write_enable = raw_input('write parameters？ (Y/N)')
+        if paras_write_enable == 'Y' :
+
+            effort = 1200
+
+            #rospy.set_param("/INNFOS/Actuator/1/PROFILE_POS_ACC", effort)
+            #rospy.set_param("/INNFOS/Actuator/2/PROFILE_POS_ACC", effort)
+            #rospy.set_param("/INNFOS/Actuator/3/PROFILE_POS_ACC", effort)
+            #rospy.set_param("/INNFOS/Actuator/4/PROFILE_POS_ACC", effort)
+            rospy.set_param("/INNFOS/Actuator/5/PROFILE_POS_ACC", effort)
+            rospy.set_param("/INNFOS/Actuator/6/PROFILE_POS_ACC", effort)
+            rospy.set_param("/INNFOS/Actuator/7/PROFILE_POS_ACC", effort)
+
+            #rospy.set_param("/INNFOS/Actuator/1/PROFILE_POS_DEC", -effort)
+            #rospy.set_param("/INNFOS/Actuator/2/PROFILE_POS_DEC", -effort)
+            #rospy.set_param("/INNFOS/Actuator/3/PROFILE_POS_DEC", -effort)
+            #rospy.set_param("/INNFOS/Actuator/4/PROFILE_POS_DEC", -effort)
+            rospy.set_param("/INNFOS/Actuator/5/PROFILE_POS_DEC", -effort)
+            rospy.set_param("/INNFOS/Actuator/6/PROFILE_POS_DEC", -effort)
+            rospy.set_param("/INNFOS/Actuator/7/PROFILE_POS_DEC", -effort)
+
+            #rospy.set_param("/INNFOS/Actuator/1/PROFILE_POS_MAX_SPEED", effort)
+            #rospy.set_param("/INNFOS/Actuator/2/PROFILE_POS_MAX_SPEED", effort)
+            #rospy.set_param("/INNFOS/Actuator/3/PROFILE_POS_MAX_SPEED", effort)
+            #rospy.set_param("/INNFOS/Actuator/4/PROFILE_POS_MAX_SPEED", effort)
+            rospy.set_param("/INNFOS/Actuator/5/PROFILE_POS_MAX_SPEED", effort)
+            rospy.set_param("/INNFOS/Actuator/6/PROFILE_POS_MAX_SPEED", effort)
+            rospy.set_param("/INNFOS/Actuator/7/PROFILE_POS_MAX_SPEED", effort)
+
+            #rospy.set_param("/INNFOS/Actuator/1/POS_LIMITATION_MINIMUM", -30)
+            #rospy.set_param("/INNFOS/Actuator/2/POS_LIMITATION_MINIMUM", -12)
+            #rospy.set_param("/INNFOS/Actuator/3/POS_LIMITATION_MINIMUM", -13)
+            #rospy.set_param("/INNFOS/Actuator/4/POS_LIMITATION_MINIMUM", -11)
+            rospy.set_param("/INNFOS/Actuator/5/POS_LIMITATION_MINIMUM", -11)   #?
+            rospy.set_param("/INNFOS/Actuator/6/POS_LIMITATION_MINIMUM", -11)   #?
+            rospy.set_param("/INNFOS/Actuator/7/POS_LIMITATION_MINIMUM", -11)   #?
+
+            #rospy.set_param("/INNFOS/Actuator/1/POS_LIMITATION_MAXIMUM", 30)
+            #rospy.set_param("/INNFOS/Actuator/2/POS_LIMITATION_MAXIMUM", 12)
+            #rospy.set_param("/INNFOS/Actuator/3/POS_LIMITATION_MAXIMUM", 13)
+            #rospy.set_param("/INNFOS/Actuator/4/POS_LIMITATION_MAXIMUM", 11)
+            rospy.set_param("/INNFOS/Actuator/5/POS_LIMITATION_MAXIMUM", 11)    #?
+            rospy.set_param("/INNFOS/Actuator/6/POS_LIMITATION_MAXIMUM", 11)    #?
+            rospy.set_param("/INNFOS/Actuator/7/POS_LIMITATION_MAXIMUM", 11)    #?
+
+            rospy.sleep(3)
+            print('parameters written')
+
+
+
+        #
+        pos_write_enable = raw_input('write positions？ (Y/N)')
+        if pos_write_enable == 'Y' :
+            self.modes.JointIDs = [5, 6, 7]
+            self.modes.ActuatorMode = 4
+            for i in range(3) :
+                self.pub_modes.publish(self.modes)
+                rospy.sleep(0.1)
+            rospy.sleep(3)
+
+            while 1 :
+                joint_id = raw_input('joint id is ?')
+                self.joint_cmd.JointID = int(joint_id)
+
+                joint_value = raw_input('pos value is ?')
+                self.joint_cmd.TargetValue = float(joint_value)
+
+                if self.joint_cmd.JointID == 666 or self.joint_cmd.TargetValue == 666:
+                    break
+
+                # angle = float(value)*10
+                if self.joint_cmd.JointID == 5 :
+                    if self.joint_cmd.TargetValue >= 18 or self.joint_cmd.TargetValue <= -18 :
+                        break
+                if self.joint_cmd.JointID == 6 :
+                    if self.joint_cmd.TargetValue >= 7.5 or self.joint_cmd.TargetValue <= -7.5 :
+                        break
+                if self.joint_cmd.JointID == 7 :
+                    if self.joint_cmd.TargetValue >= 9 or self.joint_cmd.TargetValue <= -9 :
+                        break
+
+                self.pub_pos.publish(self.joint_cmd)
+                rospy.sleep(3)
+
+
+
+        #
+        postures_write_enable = raw_input('write postures？ (Y/N)')
+        if postures_write_enable == 'Y' :
+            self.modes.JointIDs = [5, 6, 7]
+            self.modes.ActuatorMode = 4
+            for i in range(3) :
+                self.pub_modes.publish(self.modes)
+                rospy.sleep(0.1)
+            rospy.sleep(3)
+
+            self.joint_cmd.JointID = 5
+            self.joint_cmd.TargetValue = 0
+            self.pub_pos.publish(self.joint_cmd)
+            rospy.sleep(1)
+
+            self.joint_cmd.JointID = 6
+            self.joint_cmd.TargetValue = -6
+            self.pub_pos.publish(self.joint_cmd)
+            rospy.sleep(1)
+
+            self.joint_cmd.JointID = 7
+            self.joint_cmd.TargetValue = 7.5
+            self.pub_pos.publish(self.joint_cmd)
+
+            rospy.sleep(3)
+
+
+
+        #
+        joints_disable = raw_input('disable joints？ (Y/N)')
+        if joints_disable == 'Y' :
+            self.actuatorarray.JointIDs = [5, 6, 7]
+            for i in range(3) :
+                self.pub_disable.publish(self.actuatorarray)
+                rospy.sleep(0.1)
+            rospy.sleep(3)
+            print('joints disabled')
+
+
+
+        print('everything is done!')
+
+
+
+if __name__ == '__main__' :
+
+    rospy.init_node("cutter_arm_motors", anonymous=True)
+
+    my_node = Nodo()
+    my_node.start()
+################################################################################################################################
+#!/usr/bin/env python2
+
+import rospy
+
+import serial
+
+from geometry_msgs.msg import Point
+from std_msgs.msg import Float32
+
+
+
+class Nodo(object) :
+
+    def __init__(self) :
+
+        #self.loop_rate = rospy.Rate(10)
+
+        self.serHandle = serial.Serial("/dev/ttyUSB0", 9600)
+
+        self.ser1_angle = Float32()
+        self.ser1_angle.data = 120.0
+        self.ser1_pos = 0
+        self.ser1_pub = rospy.Publisher('cutter_arm_ser1_ang', Float32, queue_size=1)
+
+        self.ser2_angle = Float32()
+        self.ser2_angle.data = 120.0
+        self.ser2_pos = 0
+        self.ser2_pub = rospy.Publisher('cutter_arm_ser2_ang', Float32, queue_size=1)
+
+        self.ser_cmd = Point()
+        self.ser_cmd.x = 1.2
+        self.ser_cmd.y = 120.0
+        self.ser_cmd.z = 120.0
+        rospy.Subscriber("cutter_arm_ser_cmd", Point, self.cutter_arm_ser_cmd_cb, queue_size=1)
+
+
+
+    def PosRead(self) :
+
+        self.serHandle.flushInput()
+
+        buf = bytearray(b'\x55\x55')
+        buf.append(0x05)
+        buf.append(0x15)
+        buf.append(0x02)
+        buf.append(0x01)
+        buf.append(0x02)
+        self.serHandle.write(buf)
+        rospy.sleep(0.16)   #?
+
+        cnt = self.serHandle.inWaiting()
+        if cnt == 11 :
+            data = self.serHandle.read(cnt)
+            if ord(data[0])==0x55 and ord(data[1])==0x55 and ord(data[3])==0x15 :
+                self.ser1_pos = ord(data[6]) + ord(data[7])*256
+                self.ser2_pos = ord(data[9]) + ord(data[10])*256
+                self.ser1_angle.data = self.ser1_pos*0.24
+                self.ser2_angle.data = self.ser2_pos*0.24
+
+
+
+    #time:      0.6s~1.2s~2.4s
+    #angle1:    0.0d~240.0d
+    #angle2:    0.0d~240.0d
+    def PosWrite(self, time_s=1.2, angle1=120.0, angle2=120.0) :
+
+        time_ms= (int)( time_s*1000 )       #1200ms
+        pos1   = (int)( (angle1*1000)/240 ) #0~1000
+        pos2   = (int)( (angle2*1000)/240 ) #0~1000
+
+        buf = bytearray(b'\x55\x55')
+        buf.append(0x0B)
+        buf.append(0x03)
+
+        buf.append(0x02)
+        buf.append(0xff & int(time_ms%256))
+        buf.append(0xff & int(time_ms/256))
+
+        buf.append(0x01)
+        buf.append(0xff & int(pos1%256))
+        buf.append(0xff & int(pos1/256))
+
+        buf.append(0x02)
+        buf.append(0xff & int(pos2%256))
+        buf.append(0xff & int(pos2/256))
+
+        self.serHandle.write(buf)
+
+        if time_s >= 1.2 :
+            rospy.sleep(time_s)
+        else :
+            rospy.sleep(1.2)
+
+
+
+    def cutter_arm_ser_cmd_cb(self, cmd) :
+        self.ser_cmd.x = cmd.x
+        self.ser_cmd.y = cmd.y
+        self.ser_cmd.z = cmd.z
+
+
+
+    def start(self) :
+
+        while not rospy.is_shutdown() :
+
+            self.PosRead()
+            self.ser1_pub.publish(self.ser1_angle)
+            self.ser2_pub.publish(self.ser2_angle)
+            rospy.loginfo("ser1pos[%0.2f], ser2pos[%0.2f]", self.ser1_angle.data, self.ser2_angle.data)
+
+            self.PosWrite(self.ser_cmd.x, self.ser_cmd.y, self.ser_cmd.z)
+            rospy.loginfo("ser1cmd[%0.2f], ser2cmd[%0.2f]", self.ser_cmd.y, self.ser_cmd.z)
+
+            #self.loop_rate.sleep()
+
+
+
+if __name__ == "__main__" :
+
+    rospy.init_node('cutter_arm_servo', anonymous=True)
+
+    my_node = Nodo()
+    my_node.start()
+################################################################################################################################
+#!/usr/bin/env python2
+
+from geometry_msgs.msg import Point
+import rospy
+import serial
+from std_msgs.msg import Float32
+import time
+
+
+
+if __name__ == "__main__":
+
+    rospy.init_node('cutter_arm_servo_pub', anonymous=True)
+
+    point = Point()
+    point.x = 0
+    point.y = 0
+    point.z = 0
+    ser_pub = rospy.Publisher('cutter_arm_ser_cmd', Point, queue_size=1)
+
+    cnt = int()
+    cnt = 0
+
+    while True:
+
+        cnt = cnt + 1
+
+        point.x = 1.2
+        point.y = cnt
+        point.z = cnt
+
+        if (cnt%20) == 0 :
+            ser_pub.publish(point)
+            rospy.loginfo("time[%0.2f], ser1[%0.2f], ser2[%0.2f]", point.x, point.y, point.z)
+            if cnt >= 220:
+                cnt = 0
+
+        time.sleep(0.5)
+
+
+
+    rospy.spin()
+################################################################################################################################
+################################################################################################################################
+
