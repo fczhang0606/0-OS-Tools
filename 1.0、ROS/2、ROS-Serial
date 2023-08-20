@@ -25,3 +25,4 @@ roscd serial == /opt/ros/melodic/share/serial
 
 cd ~/ws/src
 catkin_create_pkg learning_com std_msgs roscpp serial
+
