@@ -1,0 +1,23 @@
+ifconfig
+	IP
+
+sudo gedit /etc/hosts
+	192.168.101.5	szy-pc
+	192.168.101.24	zfc-pc
+
+	127.0.0.1		localhost
+	127.0.1.1		[name]
+
+ping
+
+sudo gedit ./~bashrc
+	export ROS_HOSTNAME=[IP_HOSTS_NAME]
+	export ROS_MASTER_URI=http://[HOSTNAME]:11311
+
+
+
+roscore
+rosrun turtlesim turtlesim_node
+
+rostopic list
+rostopic pub -r 10 /turtle1/cmd_vel geometry_msgs/Twist "..."
