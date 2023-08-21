@@ -1,0 +1,227 @@
+################################################################################################################################
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import rospy
+from sensor_msgs.msg import Image
+from geometry_msgs.msg import Point
+
+
+import cv2
+from cv_bridge import CvBridge
+from message_filters import TimeSynchronizer, Subscriber
+import numpy as np
+
+
+from ultralytics import YOLO
+
+
+
+def image_callback(img1, img2) :
+    
+    img1 = bridge.imgmsg_to_cv2(img1, "bgr8")
+    # results = model(img1)
+    results = model.predict(img1, classes=0)
+    res_plotted = results[0].plot()
+    image_publisher.publish(bridge.cv2_to_imgmsg(res_plotted, "bgr8"))
+    
+    img2 = bridge.imgmsg_to_cv2(img2)
+    img2 = np.array(img2, dtype=float)
+    img2 = img2*1000  # m~mm ???
+    
+    
+    
+    for result in results :
+        if len(result.boxes.cls) != 0 :
+            boxes = result.boxes.xywh
+            for box in boxes :
+                x, y, w, h = box
+                x = int(x)
+                y = int(y)
+                
+                real_z = img2[y][x]  # nan ???
+                if np.abs(real_z) >= 0.01 :
+                    real_x = (x - ppx) / fx * real_z * 0.001  # m
+                    real_y = (y - ppy) / fy * real_z * 0.001  # m
+                    distance = round(real_z, 2) * 0.001       # .xx
+                    
+                    pub_point = Point()
+                    pub_point.x = real_x
+                    pub_point.y = real_y
+                    pub_point.z = distance
+                    
+                    point_publisher.publish(pub_point)
+                    rospy.loginfo("potion:x=%f, y=%f, z=%f", real_x, real_y, distance)
+
+
+
+if __name__ == '__main__' :
+
+    global fx, fy, ppx, ppy
+    fx = 366.2848
+    fy = 366.2848
+    ppx = 317.2449
+    ppy = 188.2544
+
+    rospy.init_node('zed', anonymous=True)
+
+    bridge = CvBridge()
+
+    model = YOLO('yolov8n.pt')
+
+    image_sub1 = Subscriber('/zedm/zed_node/rgb/image_rect_color', Image)
+    image_sub2 = Subscriber('/zedm/zed_node/depth/depth_registered', Image)
+
+    ts = TimeSynchronizer([image_sub1, image_sub2], 1, 0.1)
+    ts.registerCallback(image_callback)
+
+    image_publisher = rospy.Publisher('/img_zed', Image, queue_size=1)
+    point_publisher = rospy.Publisher('/center_zed', Point, queue_size=1)
+
+    rospy.spin()
+################################################################################################################################
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import rospy
+from sensor_msgs.msg import Image
+from geometry_msgs.msg import Point
+
+
+import cv2
+from cv_bridge import CvBridge
+from message_filters import TimeSynchronizer, Subscriber
+import numpy as np
+
+
+from ultralytics import YOLO
+
+
+
+def image_callback(img1, img2) :
+    
+    img1 = bridge.imgmsg_to_cv2(img1, "bgr8")
+    results = model.predict(img1,conf=0.82)
+    res_plotted = results[0].plot()
+    image_publisher.publish(bridge.cv2_to_imgmsg(res_plotted, "bgr8"))
+    
+    img2 = bridge.imgmsg_to_cv2(img2, "16UC1")
+    img2 = np.array(img2, dtype=float)
+    
+    
+    for result in results :
+        if len(result.boxes.cls) != 0 :
+            boxes = result.boxes.xywh
+            for box in boxes:
+                x, y, w, h = box
+                x = int(x)
+                y = int(y)
+                
+                real_z = img2[y, x]*0.001
+                real_x = (x - ppx) / fx * real_z
+                real_y = (y - ppy) / fy * real_z
+                distance = round(real_z, 2)
+                
+                pub_point = Point()
+                pub_point.x = real_x * 100  # m~cm
+                pub_point.y = real_y * 100
+                pub_point.z = distance * 100
+                
+                point_publisher.publish(pub_point)
+                rospy.loginfo("potion:x=%f, y=%f, z=%f", pub_point.x, pub_point.y, pub_point.z)
+
+
+
+if __name__ == '__main__' :
+
+    global fx, fy, ppx, ppy
+    fx = 605.974975
+    fy = 605.183654
+    ppx = 326.751403
+    ppy = 248.978637
+
+
+    rospy.init_node('rs', anonymous=True)
+
+    bridge = CvBridge()
+
+    model = YOLO('best.pt')
+
+    image_sub1 = Subscriber('/camera/color/image_raw', Image)
+    image_sub2 = Subscriber('/camera/aligned_depth_to_color/image_raw', Image)
+
+    ts = TimeSynchronizer([image_sub1, image_sub2], 1, 0.1)
+    ts.registerCallback(image_callback)
+
+    image_publisher = rospy.Publisher('/img_realsense', Image, queue_size=1)
+    point_publisher = rospy.Publisher('/center_realsense', Point, queue_size=1)
+
+    rospy.spin()
+################################################################################################################################
+#!/usr/bin/env python2
+
+from cv_bridge import CvBridge
+from darknet_ros_msgs.msg import BoundingBoxes
+from sensor_msgs.msg import Image
+
+import cv2
+import numpy as np
+import rospy
+
+#
+test_list = []
+
+#
+def box(data) :
+    global test_list
+    test_list = data.bounding_boxes
+    # print test_list
+
+#
+def depth(data) :
+
+    global test_list
+
+    # 640 x 360
+    # print('Image size: {width}x{height}'.format(width=data.width, height=data.height))
+
+    bridge = CvBridge()
+    depth_image = bridge.imgmsg_to_cv2(data)
+    depth_image = np.array(depth_image, dtype=np.float)
+    depth_image = depth_image * 1000
+
+    if len(test_list) > 0 :
+
+	for i in range(len(test_list)) :
+
+            xmin = test_list[i].xmin
+            xmax = test_list[i].xmax
+            ymin = test_list[i].ymin
+            ymax = test_list[i].ymax
+
+            x = xmin + (xmax - xmin)/2
+            y = ymin + (ymax - ymin)/2
+
+            distance = depth_image[y][x]
+
+            rospy.loginfo("Position([%0.2f],[%0.2f]): [%0.2f]",x, y, distance)
+
+    test_list = []
+
+    cv2.imshow('depth', depth_image)
+    cv2.waitKey(2)
+
+###
+if __name__ == '__main__' :
+
+    rospy.init_node('test', anonymous=True)
+
+    rospy.Subscriber('/darknet_ros/bounding_boxes', BoundingBoxes, box, queue_size=1)
+    rospy.Subscriber('/zed/zed_node/depth/depth_registered', Image, depth, queue_size=1)
+
+    # pub
+
+    rospy.spin()
+################################################################################################################################
+################################################################################################################################
+
