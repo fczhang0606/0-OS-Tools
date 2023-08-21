@@ -1,3 +1,4 @@
+################################################################################################################################
 https://blog.csdn.net/fb_941219/article/details/84481689
 https://blog.csdn.net/fb_941219/article/details/84486603
 https://blog.csdn.net/qq_21830903/article/details/91457392
@@ -25,4 +26,147 @@ roscd serial == /opt/ros/melodic/share/serial
 
 cd ~/ws/src
 catkin_create_pkg learning_com std_msgs roscpp serial
+################################################################################################################################
+#include <ros/ros.h>
+#include <serial/serial.h>
+#include <std_msgs/String.h>
+#include <std_msgs/Empty.h>
+#include <iostream>
+
+serial::Serial ser;
+
+void cmd_vol_read()
+{
+	uint8_t buf[4];
+	buf[0] = 0x55;
+	buf[1] = 0x55;
+	buf[2] = 0x02;
+	buf[3] = 0x0f;
+
+	ser.write(buf, 4);
+}
+
+void cmd_vol_off()
+{
+	uint8_t buf[7];
+	buf[0] = 0x55;
+	buf[1] = 0x55;
+	buf[2] = 0x05;
+	buf[3] = 0x14;
+	buf[4] = 0x02;
+	buf[5] = 0x01;
+	buf[6] = 0x02;
+
+	ser.write(buf, 7);
+}
+
+void cmd_pos_read()
+{
+	uint8_t buf[7];
+	buf[0] = 0x55;
+	buf[1] = 0x55;
+	buf[2] = 0x05;
+	buf[3] = 0x15;
+	buf[4] = 0x02;
+	buf[5] = 0x01;
+	buf[6] = 0x02;
+
+	ser.write(buf, 7);
+}
+
+void cmd_pos_arrive(uint16_t time, uint16_t pos1, uint16_t pos2)
+{
+	uint8_t buf[13];
+	buf[0] = 0x55;
+	buf[1] = 0x55;
+	buf[2] = 0x11;
+	buf[3] = 0x03;
+	buf[4] = 0x02;
+	buf[5] = uint8_t(time%256);
+	buf[6] = uint8_t(time/256);
+	buf[7] = 0x01;
+	buf[8] = uint8_t(pos1%256);
+	buf[9] = uint8_t(pos1/256);
+	buf[10] = 0x02;
+	buf[11] = uint8_t(pos2%256);
+	buf[12] = uint8_t(pos2/256);
+
+	ser.write(buf, 13);
+}
+
+int main(int argc, char** argv)
+{
+
+	ros::init(argc, argv, "serial_port");
+	ros::NodeHandle n;
+
+	//serial::Serial ser;
+
+	try
+	{
+		ser.setPort("/dev/ttyUSB0");
+		ser.setBaudrate(9600);
+		serial::Timeout to = serial::Timeout::simpleTimeout(1000);
+		ser.setTimeout(to);
+		ser.open();
+	}
+	catch(serial::IOException& e)
+	{
+		ROS_ERROR_STREAM("Unable to open port.");
+		return -1;
+	}
+
+	if(ser.isOpen())
+	{
+		ROS_INFO_STREAM("/dev/ttyUSB0 is opened.");
+	}
+	else
+	{
+		return -1;
+	}
+
+	ros::Rate loop_rate(1000);
+	uint8_t cnt = 0;
+	while(ros::ok())
+	{
+
+		size_t n = ser.available();
+		if(n!=0)
+		{
+			uint8_t buffer[128];
+			n = ser.read(buffer, n);
+
+			for(int i=0; i<n; i++)
+			{
+				std::cout << std::hex << (buffer[i] & 0xff) << " ";
+			}
+
+			std::cout << std::endl;
+
+			//ser.write(buffer, n);
+
+			cnt++;
+			if(cnt >= 10)
+			{
+				break;
+			}
+		}
+
+		cmd_vol_read();
+		loop_rate.sleep();
+		cmd_pos_read();
+		//loop_rate.sleep();
+		//cmd_pos_arrive(800, cnt, cnt);
+
+		loop_rate.sleep();
+	}
+
+	cmd_pos_arrive(1000, 800, 800);
+
+	ser.close();
+
+	return 0;
+}
+################################################################################################################################
+################################################################################################################################
 
