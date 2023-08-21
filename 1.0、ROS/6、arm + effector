@@ -1,0 +1,206 @@
+################################################################################################################################
+//sudo systemctl stop serial-getty@USB0.service
+//sudo chmod -R 777 /dev/ttyUSB0
+//rosrun catch catch
+
+#include "ros/ros.h"
+
+#include <std_msgs/Bool.h>
+#include <std_msgs/Int8.h>
+#include <std_msgs/Float64.h>
+#include <std_msgs/Char.h>
+#include <std_msgs/String.h>
+
+#include <geometry_msgs/Point.h>
+#include <geometry_msgs/Quaternion.h>
+
+#include <cmath>
+#define pi 3.1415926
+
+#include <iostream>
+
+#include <serial/serial.h>
+
+
+
+using namespace std;
+
+serial::Serial ser;
+
+double l1 = 23;
+double l2 = 10;
+
+double x = 0;
+double y = 0;
+double z = 0;
+double fx = 0;
+double fy = 0;
+double fz = 30;
+
+double w1  = 0;
+double w2  = 0;
+
+
+bool judge(){
+
+    double dx, dy, dz;
+    
+    // move to the same direction to decrese the difference
+    dx = x - fx;
+    dy = y - fy;
+    dz = z - fz;
+
+    ROS_INFO_STREAM(dx);
+    ROS_INFO_STREAM(dy);
+    ROS_INFO_STREAM(dz);
+
+    if( abs(dx)<3 && abs(dy)<3 && abs(dz)<3 ){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+
+void resolve(){
+
+    w1 = acos( pow(l1,2) + pow(z,2) - pow(l2,2) / 2*l1*z );
+
+    w2 = acos( pow(l1,2) + pow(l2,2) - pow(z,2) / 2*l1*l2 ) - atan(z/l1);
+
+    ROS_INFO_STREAM(w1);
+    ROS_INFO_STREAM(w2);
+}
+
+void servo1_control(double r){
+
+    r = r/180*2000+500;
+    std::string str = std::to_string(int(r));
+    if (str.length()<4){
+        str = "0"+str;}
+    std::string send = "#001P" + str + "T" + "1500" + "!";
+    ROS_INFO_STREAM(send);
+    ser.write(send);
+    ROS_INFO_STREAM("1done");
+    sleep(1);
+}
+
+
+// ???
+void servo2_control(double r){
+    r = r/180*2000+500;
+    std::string str = std::to_string(int(r));
+    if (str.length()<4){
+        str = "0"+str;}
+    std::string send = "#005P" + str + "T" + "1500" + "!";
+    ROS_INFO_STREAM(send);
+    ser.write(send);
+    ROS_INFO_STREAM("2done");
+    sleep(1);
+}
+
+
+void servo3_control(double r){
+    r = r/180*2000+500;
+    std::string str = std::to_string(int(r));
+    if (str.length()<4){
+        str = "0"+str;}
+    std::string send = "#003P" + str + "T" + "1500" + "!";
+    ROS_INFO_STREAM(send);
+    ser.write(send);
+    ROS_INFO_STREAM("3done");
+    sleep(1);
+}
+
+
+void catch_object(){
+
+    int r1, r2, r3;
+
+    ROS_INFO_STREAM("stretch the claw");
+    servo1_control(80);
+    sleep(1);
+    servo2_control(30);  // 90???
+    sleep(1);
+    servo3_control(0);
+    sleep(5);
+
+    ROS_INFO_STREAM("move to the position");
+    //r1 = int(w1);
+    servo1_control(0);
+    sleep(5);
+
+    ROS_INFO_STREAM("adjust the claw");
+    //r2 = int(w2);
+    servo2_control(89);
+    sleep(2);
+    
+    ROS_INFO_STREAM("catch the object");
+    servo3_control(110);
+    sleep(5);
+
+    ROS_INFO_STREAM("recover the gesture");
+    servo1_control(80);
+}
+
+
+void catch_cb(const geometry_msgs::Point::ConstPtr& point){
+
+    ROS_INFO_STREAM("received point : \n"<<*point);
+
+    x = (*point).x;
+    y = (*point).y - 5.8;  //
+    z = (*point).z;
+
+    if(judge()){
+
+    ROS_INFO_STREAM("please hover");
+    // 给飞机一个悬停指令
+
+    // 飞机返回悬停完毕
+    ROS_INFO_STREAM("hover is ready");
+
+    //resolve();
+
+    catch_object();
+    
+    // ?
+    }
+}
+
+
+int main(int argc, char *argv[]){
+
+    setlocale(LC_ALL, "");
+
+    ros::init(argc, argv, "catch");
+    ros::NodeHandle nh;
+
+    ros::Subscriber catch_sub = nh.subscribe<geometry_msgs::Point>("/center_realsense", 3, catch_cb);
+
+
+    try{
+        ser.setPort("/dev/ttyUSB0");
+		ser.setBaudrate(115200);
+
+		serial::Timeout to = serial::Timeout::simpleTimeout(33.33);
+		ser.setTimeout(to);
+
+		ser.open();
+		if(ser.isOpen()){
+		    ROS_INFO_STREAM("serial port is opened");
+		}
+	}
+    catch(serial::IOException& e){
+		ROS_ERROR_STREAM("unable to open port");
+		return -1;
+	}
+
+
+	ros::spin();
+
+}
+################################################################################################################################
+################################################################################################################################
+################################################################################################################################
+################################################################################################################################
