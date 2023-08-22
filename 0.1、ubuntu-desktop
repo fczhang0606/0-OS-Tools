@@ -79,7 +79,9 @@ use-mirrors = true
 mirrors = https://pypi.tuna.tsinghua.edu.cn/simple
 trusted-host = pypi.tuna.tsinghua.edu.cn
 ################################################################################################################################
-\QT                                                            https://zhuanlan.zhihu.com/p/586929474
+\QT                                                            系统自带、系统安装(~/opt)、base环境、env环境
+
+https://zhuanlan.zhihu.com/p/586929474
 
 sudo apt-get update
 sudo apt-get install gcc g++
@@ -113,6 +115,10 @@ pip install pyqt5
 
 qmake -v
 sudo find / -name "qt?"
+
+qtcreator
+sudo ~/Qt5.14.2/Tools/QtCreator/bin/qtcreator
+sudo /opt/Qt5.14.2/Tools/QtCreator/bin/qtcreator
 ################################################################################################################################
 \Github
 
