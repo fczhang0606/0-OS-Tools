@@ -234,7 +234,7 @@ sudo gedit /etc/hosts
 \Pycharm
 
     https://www.jetbrains.com/pycharm/
-    tar -zxvf pycharm-community-2023.1.tar.gz.tar.gz
+    tar -zxvf pycharm-community-2023.1.tar.gz
 
     cd bin/
     ./pycharm.sh
