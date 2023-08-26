@@ -203,7 +203,7 @@ sudo gedit /etc/hosts
 \Anaconda
 
     https://www.anaconda.com/
-    bash Anaconda3-2023.03-Linux-x86_64.sh.sh
+    bash Anaconda3-2023.03-Linux-x86_64.sh
     source ~/.bashrc
 
     source ~/anaconda3/bin/activate root
