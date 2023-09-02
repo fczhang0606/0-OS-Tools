@@ -56,6 +56,8 @@ sudo cp iwlwifi-* /lib/firmware
     sudo add-apt-repository multiverse
     sudo apt install ubuntu-restricted-extras
     sudo apt install vlc
+
+    sudo apt install terminator
 ################################################################################################################################
 \Python
 
