@@ -230,6 +230,7 @@ ifconfig
     conda config --set auto_activate_base true/false
 
     conda update -n base -c defaults conda
+    conda update conda
 
     https://mirrors.tuna.tsinghua.edu.cn/anaconda/
     conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
