@@ -264,11 +264,12 @@ ifconfig
 
     //base
     conda install jupyter
-    jupyter notebook --generate-config
-    jupyter notebook
+    pip install jupyter
 
-    conda install nb_conda
-    conda install -c conda-forge jupyter_contrib_nbextensions
+    //
+    jupyter notebook --generate-config
+        c.ServerApp.notebook_dir = '/home/zhfc/jupyter_files'
+    jupyter notebook
 
     //
     python2 -m pip install ipykernel
