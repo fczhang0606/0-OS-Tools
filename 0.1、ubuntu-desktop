@@ -271,7 +271,7 @@ ifconfig
         c.ServerApp.notebook_dir = '/home/zhfc/jupyter_files'
     jupyter notebook
 
-    //
+    //base
     python2 -m pip install ipykernel
     python2 -m ipykernel install --user
     python3 -m pip install ipykernel
@@ -281,7 +281,7 @@ ifconfig
     conda install ipykernel
     conda install platformdirs
     pip3 install --upgrade jupyter_core jupyter_client
-    # sudo python -m ipykernel install --name XXX
+    python -m ipykernel install --user --name XXX
 
     //
     jupyter kernelspec list
