@@ -1,0 +1,7 @@
+林沛群
+	http://peichunlin.me.ntu.edu.tw/
+	https://www.bilibili.com/video/BV1v4411H7ez?p=1
+ 参考书目
+	John J. Craig, “Introduction to Robotics: Mechanics and Control” 3rd edition, Prentice Hall
+	Saeed B. Niku, “Introduction to Robotics: Analysis, Control, Applications” 2nd edition, Wiley
+ 
