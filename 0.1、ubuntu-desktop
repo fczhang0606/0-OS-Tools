@@ -58,6 +58,10 @@ sudo cp iwlwifi-* /lib/firmware
     sudo apt install vlc
 
     sudo apt install terminator
+
+    sudo apt install ibus-libpinyin
+    ibus-setup
+    reboot
 ################################################################################################################################
 \Python
 
