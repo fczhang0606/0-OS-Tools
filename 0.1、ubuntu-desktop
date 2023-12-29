@@ -292,6 +292,14 @@ ifconfig
     jupyter kernelspec list
     jupyter kernelspec remove XXX
 ################################################################################################################################
+\Visual Studio Code
+
+    https://code.visualstudio.com/
+    sudo dpkg -i code_1.85.1-1702462158_amd64.deb
+    github account: fczhang0606@qq.com
+
+    
+################################################################################################################################
 \Envs
 
     //fczh@fczh + base
