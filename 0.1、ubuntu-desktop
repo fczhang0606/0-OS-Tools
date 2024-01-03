@@ -292,15 +292,28 @@ ifconfig
     jupyter kernelspec list
     jupyter kernelspec remove XXX
 ################################################################################################################################
-\Visual Studio Code
+\Visual Studio Code + git
 
-    https://code.visualstudio.com/
-    sudo dpkg -i code_1.85.1-1702462158_amd64.deb
-    github account: fczhang0606@qq.com
+    VS Code
+        https://code.visualstudio.com/
+            sudo dpkg -i code_1.85.1-1702462158_amd64.deb
+        github account: fczhang0606@gmail.com
 
-    https://www.bilibili.com/video/BV1ua41167Ma?p=6&spm_id_from=pageDriver&vd_source=7a5fcfa8c6ae901cc39288089c7c4eb1
+    Git
+        https://zhuanlan.zhihu.com/p/633000368
+        https://www.bilibili.com/video/BV1ua41167Ma?p=6&spm_id_from=pageDriver&vd_source=7a5fcfa8c6ae901cc39288089c7c4eb1
 
-    
+        which git
+        git version
+
+        git config --global --list
+        git config --global user.name "fczhang0606"
+        git config --global user.email "fczhang0606@gmail.com"
+
+    ssh
+        ssh-keygen -t rsa -C "fczhang0606@gmail.com"
+        ls -al ~/.ssh
+        cat ~/.ssh/id_rsa.pub
 ################################################################################################################################
 \Envs
 
