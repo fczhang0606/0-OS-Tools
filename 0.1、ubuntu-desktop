@@ -272,14 +272,15 @@ ifconfig
 
     //setup
     jupyter notebook --generate-config
-        c.ServerApp.notebook_dir = '/home/zhfc/jupyter_files'
+    sudo gedit /home/zhfc/.jupyter/jupyter_notebook_config.py
+        c.ServerApp.notebook_dir = '/home/zhfc/github files'
     jupyter notebook
 
     //base
     python2 -m pip install ipykernel
     python2 -m ipykernel install --user
     python3 -m pip install ipykernel
-    python3 -m ipykernel install --user base
+    python3 -m ipykernel install --user
 
     //envs
     conda install ipykernel
