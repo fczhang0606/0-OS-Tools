@@ -287,7 +287,7 @@ ifconfig
     conda install platformdirs
     pip3 install ipywidgets
     pip3 install --upgrade jupyter_core jupyter_client
-    python -m ipykernel install --user --name XXX
+    python -m ipykernel install --user --name (XXX)
 
     //
     jupyter kernelspec list
