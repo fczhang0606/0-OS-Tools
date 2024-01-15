@@ -1,2 +1,3 @@
 \zotero        https://www.zotero.org/
-
+  zotero_6.0.30_amd64.deb
+  zotfile-5.1.2-fx.xpi
