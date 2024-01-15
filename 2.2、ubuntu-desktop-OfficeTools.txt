@@ -13,23 +13,6 @@
     127.0.0.1    7890
     127.0.0.1    7891
 ################################################################################################################################
-\SSH
-
-sudo apt install openssh-server
-
-sudo systemctl start ssh/sudo systemctl stop ssh
-sudo systemctl enable ssh/sudo systemctl disable ssh
-sudo systemctl status ssh/service ssh status
-
-sudo ufw status
-sudo ufw allow ssh
-
-sudo apt install openssh-client
-ssh username@address
-exit
-
-ifconfig
-################################################################################################################################
 \Chrome                                                        https://www.google.cn/chrome/
 ################################################################################################################################
 \Github
@@ -47,6 +30,35 @@ sudo gedit /etc/hosts
 185.199.110.133        raw.githubusercontent.com
 185.199.111.133        raw.githubusercontent.com
 ################################################################################################################################
+\SSH
+
+sudo apt install openssh-server
+
+sudo systemctl start ssh     // sudo systemctl stop ssh
+sudo systemctl enable ssh    // sudo systemctl disable ssh
+sudo systemctl status ssh    // service ssh status
+
+sudo ufw status
+sudo ufw allow ssh
+
+sudo apt install openssh-client
+ssh username@address
+exit
+
+ifconfig
+################################################################################################################################
+
+################################################################################################################################
+\libreoffice                vs. wps office
+
+    sudo add-apt-repository ppa:libreoffice/ppa
+    sudo apt update
+    sudo apt install libreoffice
+################################################################################################################################
+\master-pdf-editor(crack)
+
+    master-pdf-editor_5.8.52-1_amd64.deb
+################################################################################################################################
 \XMind                                                           https://www.jianshu.com/p/9d93b1754549
 
     xmind-8-update9-linux.zip                                   https://xmind.cn/download/xmind8/
@@ -59,3 +71,8 @@ sudo gedit /etc/hosts
 
     crack
 ################################################################################################################################
+\others
+
+    sudo apt install vlc
+################################################################################################################################
+
