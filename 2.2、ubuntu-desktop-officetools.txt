@@ -1,7 +1,4 @@
 ################################################################################################################################
-\Chrome                                                        https://www.google.cn/chrome/
-
-################################################################################################################################
 \Clash                                                        https://zhuanlan.zhihu.com/p/618834610
 
     https://github.com/Fndroid/clash_for_windows_pkg/releases
@@ -15,6 +12,40 @@
     127.0.0.1    7890
     127.0.0.1    7890
     127.0.0.1    7891
+################################################################################################################################
+\SSH
+
+sudo apt install openssh-server
+
+sudo systemctl start ssh/sudo systemctl stop ssh
+sudo systemctl enable ssh/sudo systemctl disable ssh
+sudo systemctl status ssh/service ssh status
+
+sudo ufw status
+sudo ufw allow ssh
+
+sudo apt install openssh-client
+ssh username@address
+exit
+
+ifconfig
+################################################################################################################################
+\Chrome                                                        https://www.google.cn/chrome/
+################################################################################################################################
+\Github
+
+sudo gedit /etc/hosts
+
+20.205.243.166         github.com
+119.28.87.227          github.global.ssl.fastly.net
+185.199.108.153        assets-cdn.github.com
+185.199.109.153        assets-cdn.github.com
+185.199.110.153        assets-cdn.github.com
+185.199.111.153        assets-cdn.github.com
+185.199.108.133        raw.githubusercontent.com
+185.199.109.133        raw.githubusercontent.com
+185.199.110.133        raw.githubusercontent.com
+185.199.111.133        raw.githubusercontent.com
 ################################################################################################################################
 \XMind                                                           https://www.jianshu.com/p/9d93b1754549
 
