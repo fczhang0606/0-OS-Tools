@@ -18,3 +18,15 @@
         export INFOPATH=/usr/local/texlive/2023/texmf-dist/doc/info:$PATH
     source ~/.bashrc
 
+    sudo apt-get install texlive-latex-extra
+    sudo apt-get install texlive-latex-recommended
+    sudo apt-get install texlive-science
+
+    sudo mkdir /usr/share/fonts/winfonts
+    sudo mv ./Fonts/* /usr/share/fonts/winfonts/
+    sudo chmod 644 /usr/share/fonts/winfonts/*
+    sudo mkfontscale
+    sudo mkfontdir
+    sudo fc-cache -fsv
+    fc-list :lang=zh | sort
+
