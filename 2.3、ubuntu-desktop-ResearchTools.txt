@@ -3,3 +3,18 @@
     zotero_6.0.30_amd64.deb
     zotfile-5.1.2-fx.xpi
 
+
+\latex                 https://blog.csdn.net/Hacker_MAI/article/details/130334821
+
+    https://www.latex-project.org/
+    https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/
+        texlive2023.iso    load..
+        sudo perl ./install-tl --no-interaction
+        # /usr/local/texlive/YYYY/bin/PLATFORM
+
+    sudo gedit ~/.bashrc
+        export PATH=/usr/local/texlive/2023/bin/x86_64-linux:$PATH
+        export MANPATH=/usr/local/texlive/2023/texmf-dist/doc/man:$PATH
+        export INFOPATH=/usr/local/texlive/2023/texmf-dist/doc/info:$PATH
+    source ~/.bashrc
+
