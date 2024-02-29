@@ -30,3 +30,11 @@
     sudo fc-cache -fsv
     fc-list :lang=zh | sort
 
+
+\vscode + latex        https://zhuanlan.zhihu.com/p/166523064
+
+    vscode插件：    LaTeX Workshop
+    vscode设置：    settings.json
+    tex文件编译：    TEX栏
+    pdf文件查看：    内外部pdf阅读器
+
