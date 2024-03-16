@@ -3,7 +3,7 @@
 https://zhuanlan.zhihu.com/p/666413552
 https://blog.csdn.net/djrm11/article/details/131491505
 ################################################################################################################################
-\LaTex
+\LaTex + VSCode                                              https://www.zhihu.com/column/p/166523064
 
 https://www.latex-project.org/                              LaTex官网
 
