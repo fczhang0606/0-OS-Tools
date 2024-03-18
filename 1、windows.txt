@@ -2,6 +2,9 @@
 \git for windows
 https://zhuanlan.zhihu.com/p/666413552
 https://blog.csdn.net/djrm11/article/details/131491505
+
+git config --global user.name fczhang0606
+git config --global user.email fczhang0606@gmail.com
 ################################################################################################################################
 \LaTex + VSCode                                              https://www.zhihu.com/column/p/166523064
 
