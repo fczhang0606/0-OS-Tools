@@ -6,6 +6,8 @@ git config --global user.name fczhang0606
 git config --global user.email fczhang0606@gmail.com
 
 https://blog.csdn.net/djrm11/article/details/131491505
+ssh-keygen -t rsa -C "fczhang0606@gmail.com"
+cat ~/.ssh/id_rsa.pub
 ################################################################################################################################
 \LaTex + VSCode                                             https://www.zhihu.com/column/p/166523064
 
